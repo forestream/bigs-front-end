@@ -1,4 +1,4 @@
-import Nav from "../_view/Nav";
+import Nav from "./_view/Nav";
 
 export default function Layout({
 	children,

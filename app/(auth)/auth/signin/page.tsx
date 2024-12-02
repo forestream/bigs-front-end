@@ -1,16 +1,19 @@
 "use client";
 
 import { BASE_URL } from "@/lib/constants";
+import { useRouter } from "next/navigation";
 import { FormEventHandler } from "react";
 
 export default function Page() {
+	const router = useRouter();
+
 	const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
 		e.preventDefault();
 
 		const formData = new FormData(e.target as HTMLFormElement);
 
 		try {
-			const response = await fetch(`${BASE_URL}/auth`, {
+			const response = await fetch(`${BASE_URL}/api/auth`, {
 				method: "POST",
 				body: formData,
 			});
@@ -22,6 +25,8 @@ export default function Page() {
 						" " +
 						response.statusText
 				);
+
+			router.push("/");
 		} catch (error) {
 			alert(error);
 		}

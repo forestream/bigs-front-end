@@ -23,10 +23,13 @@ export async function POST(request: Request) {
 
 		const body = await response.json();
 
-		nextResponse.cookies.set("at", body.accessToken);
-		nextResponse.cookies.set("rt", body.refreshToken);
+		nextResponse.cookies.set("at", body.accessToken, {
+			httpOnly: true,
+			maxAge: 300,
+		});
+		nextResponse.cookies.set("rt", body.refreshToken, { httpOnly: true });
 	} catch (response) {
-		// API 응답을 그대로 클라이언트에 전달
+		// 로그인 실패 시 API 응답을 그대로 클라이언트에 전달
 		return response;
 	}
 
