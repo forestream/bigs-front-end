@@ -3,14 +3,20 @@
 import { useAuth } from "@/hooks/useAuth";
 import styles from "./Nav.module.scss";
 import { useRouter } from "next/navigation";
+import { deleteServerAuthCookies } from "@/app/actions";
+import { authStore } from "@/stores/authStore";
 
 export default function Nav() {
 	const router = useRouter();
 
-	const [user] = useAuth();
+	const [user, setUser] = useAuth(authStore);
 
 	const handleSignin = () => router.push("/auth/signin");
-	const handleSignout = () => router.push("/auth/signin");
+	const handleSignout = () => {
+		deleteServerAuthCookies();
+		window.localStorage.removeItem("user");
+		setUser(null);
+	};
 
 	return (
 		<header className={styles.nav}>

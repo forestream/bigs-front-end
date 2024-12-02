@@ -2,13 +2,14 @@
 
 import { useAuth } from "@/hooks/useAuth";
 import { BASE_URL } from "@/lib/constants";
+import { authStore } from "@/stores/authStore";
 import { useRouter } from "next/navigation";
 import { FormEventHandler, useEffect } from "react";
 
 export default function Page() {
 	const router = useRouter();
 
-	const [user, setUser] = useAuth();
+	const [user, setUser] = useAuth(authStore);
 
 	useEffect(() => {
 		if (user) router.push("/");
@@ -35,6 +36,7 @@ export default function Page() {
 
 			const body = await response.json();
 
+			window.localStorage.setItem("user", JSON.stringify(body));
 			setUser({ username: body.username, name: body.name });
 		} catch (error) {
 			alert(error);

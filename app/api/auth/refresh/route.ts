@@ -1,21 +1,27 @@
 import { MISSION_API_URL } from "@/lib/constants";
 import { parseJwt } from "@/lib/utils/parseJwt";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(request: Request) {
-	const formData = await request.formData();
+export async function GET(request: NextRequest) {
+	const refreshToken = request.cookies.get("rt")?.value;
 
-	const user = Object.fromEntries(formData.entries());
+	if (!refreshToken)
+		return new NextResponse(
+			JSON.stringify({
+				message: "리프레시 토큰이 존재하지 않습니다. 다시 로그인 해주세요.",
+			}),
+			{ status: 400, statusText: "Bad Request" }
+		);
 
 	let body;
 
 	try {
-		const response = await fetch(`${MISSION_API_URL}/auth/signin`, {
+		const response = await fetch(`${MISSION_API_URL}/auth/refresh`, {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
 			},
-			body: JSON.stringify(user),
+			body: JSON.stringify({ refreshToken }),
 		});
 
 		if (!response.ok) {
