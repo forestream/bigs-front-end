@@ -1,1 +1,2 @@
-export const BASE_URL = "https://front-mission.bigs.or.kr";
+export const MISSION_API_URL = "https://front-mission.bigs.or.kr";
+export const BASE_URL = "http://localhost:3000";
