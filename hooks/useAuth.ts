@@ -7,7 +7,11 @@ import { useEffect, useSyncExternalStore } from "react";
 export function useAuth(
 	authStore: ReturnType<typeof createStore<User | null>>
 ): [ReturnType<(typeof authStore)["get"]>, (typeof authStore)["set"]] {
-	const user = useSyncExternalStore(authStore.subscribe, authStore.get);
+	const user = useSyncExternalStore(
+		authStore.subscribe,
+		authStore.get,
+		() => null
+	);
 
 	useEffect(() => {
 		const user = JSON.parse(window.localStorage.getItem("user") ?? "null");
