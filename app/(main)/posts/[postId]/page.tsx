@@ -1,3 +1,3 @@
 export default function Page() {
-	return <main>bigs</main>;
+	return <>post by id</>;
 }
