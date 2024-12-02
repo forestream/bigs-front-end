@@ -1,6 +1,6 @@
 "use client";
 
-import { BASE_URL } from "@/lib/constants";
+import { MISSION_API_URL } from "@/lib/constants";
 import { FormEventHandler } from "react";
 
 export default function Page() {
@@ -12,17 +12,22 @@ export default function Page() {
 		const newUser = Object.fromEntries(formData.entries());
 
 		try {
-			const response = await fetch(`${BASE_URL}/auth/signup`, {
+			const response = await fetch(`${MISSION_API_URL}/auth/signup`, {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify(newUser),
 			});
 
 			if (!response.ok) {
-				throw new Error("회원가입에 실패했습니다.");
+				throw new Error(
+					"회원가입에 실패했습니다." +
+						response.status +
+						" " +
+						response.statusText
+				);
 			}
 
-			alert("회원가입되었습니다. 로그인해주세요.");
+			alert("회원가입되었습니다. 로그인 페이지로 이동합니다.");
 		} catch (error) {
 			alert(error);
 		}
