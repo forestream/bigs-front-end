@@ -9,9 +9,10 @@ export default function Nav() {
 	return (
 		<header className={styles.nav}>
 			<h1>Bigs</h1>
-			<div>
+			<div className={styles.user}>
 				<p>email</p>
 				<p>name</p>
+				<button>로그아웃</button>
 			</div>
 		</header>
 	);
