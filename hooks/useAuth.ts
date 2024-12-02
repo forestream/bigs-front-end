@@ -32,9 +32,11 @@ export function useAuth(
 						const body = await response.json();
 
 						authStore.set({ username: body.username, name: body.name });
+						window.localStorage.setItem("user", JSON.stringify(body));
 					} catch (error) {
 						console.error(error);
 						authStore.set(null);
+						window.localStorage.removeItem("user");
 					}
 				};
 
