@@ -1,9 +1,29 @@
 "use client";
 
 import { BASE_URL } from "@/lib/constants";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export default function Page() {
+	const [categories, setCategories] = useState<{ [key: string]: string }>({});
+
+	useEffect(() => {
+		const fetchAsync = async () => {
+			try {
+				const response = await fetch(`${BASE_URL}/api/boards/categories`);
+
+				if (!response.ok)
+					throw new Error(response.status + response.statusText);
+
+				const body = await response.json();
+
+				setCategories(body);
+			} catch {}
+		};
+
+		fetchAsync();
+	}, []);
+
 	const [posts, setPosts] = useState<Post[]>([]);
 
 	useEffect(() => {
@@ -36,15 +56,16 @@ export default function Page() {
 				const date = createdAt.getDate();
 
 				return (
-					<div key={post.id}>
-						<p>{post.category}</p>
+					<Link key={post.id} href={`/posts/${post.id}`}>
+						<p>{categories[post.category]}</p>
 						<p>{post.title}</p>
 						<p>
 							{year}년 {month}월 {date}일
 						</p>
-					</div>
+					</Link>
 				);
 			})}
+			<Link href={"/posts/create"}>글 쓰기</Link>
 		</main>
 	);
 }
