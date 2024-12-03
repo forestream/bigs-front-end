@@ -1,0 +1,10 @@
+@use "./colors";
+
+@mixin button {
+	border-radius: 0.5rem;
+	background-color: colors.$slate-80;
+	color: colors.$white;
+	padding: 0.5rem;
+	font-size: 1rem;
+	cursor: pointer;
+}

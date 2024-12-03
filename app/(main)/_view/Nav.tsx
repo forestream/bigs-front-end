@@ -24,14 +24,19 @@ export default function Nav() {
 			<Link href="/">
 				<h1>Bigs</h1>
 			</Link>
-			<Link href="/posts">게시판</Link>
+			<Link href="/posts" className={styles.grow}>
+				게시판
+			</Link>
 			{user && (
 				<div className={styles.user}>
 					<p>{user.username}</p>
 					<p>{user.name}</p>
 				</div>
 			)}
-			<button onClick={user ? handleSignout : handleSignin}>
+			<button
+				onClick={user ? handleSignout : handleSignin}
+				className={styles.button}
+			>
 				{user ? "로그아웃" : "로그인"}
 			</button>
 		</header>

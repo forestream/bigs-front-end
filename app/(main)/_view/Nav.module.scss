@@ -2,9 +2,20 @@
 	display: flex;
 	justify-content: space-between;
 	padding: 1rem;
+	gap: 1rem;
+	align-items: center;
 
 	.user {
 		display: flex;
 		gap: 0.5rem;
 	}
+
+	.button {
+		padding: 0.5rem;
+		cursor: pointer;
+	}
+}
+
+.grow {
+	flex-grow: 1;
 }

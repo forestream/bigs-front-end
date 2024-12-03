@@ -1,6 +1,8 @@
 "use client";
 
 import { MISSION_API_URL } from "@/lib/constants";
+import Link from "next/link";
+import styles from "./page.module.scss";
 import { FormEventHandler } from "react";
 
 export default function Page() {
@@ -34,17 +36,29 @@ export default function Page() {
 	};
 
 	return (
-		<main>
-			<form onSubmit={handleSubmit}>
-				<label htmlFor="name">이름</label>
-				<input id="name" name="name" />
-				<label htmlFor="username">이메일</label>
-				<input id="username" name="username" />
-				<label htmlFor="password">비밀번호</label>
-				<input id="password" type="password" name="password" />
-				<label htmlFor="confirmPassword">비밀번호 확인</label>
-				<input id="confirmPassword" type="password" name="confirmPassword" />
+		<main className={styles.main}>
+			<form onSubmit={handleSubmit} className={styles.form}>
+				<h1>Bigs</h1>
+				<label htmlFor="name">
+					이름
+					<input id="name" name="name" />
+				</label>
+				<label htmlFor="username">
+					이메일
+					<input id="username" name="username" />
+				</label>
+				<label htmlFor="password">
+					비밀번호
+					<input id="password" type="password" name="password" />
+				</label>
+				<label htmlFor="confirmPassword">
+					비밀번호 확인
+					<input id="confirmPassword" type="password" name="confirmPassword" />
+				</label>
 				<button>회원가입</button>
+				<p>
+					회원이신가요? <Link href="/auth/signin">로그인 하기</Link>
+				</p>
 			</form>
 		</main>
 	);
