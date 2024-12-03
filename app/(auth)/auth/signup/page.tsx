@@ -4,8 +4,11 @@ import { MISSION_API_URL } from "@/lib/constants";
 import Link from "next/link";
 import styles from "./page.module.scss";
 import { FormEventHandler } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Page() {
+	const router = useRouter();
+
 	const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
 		e.preventDefault();
 
@@ -21,17 +24,18 @@ export default function Page() {
 			});
 
 			if (!response.ok) {
-				throw new Error(
-					"회원가입에 실패했습니다." +
-						response.status +
-						" " +
-						response.statusText
-				);
+				throw response;
 			}
 
 			alert("회원가입되었습니다. 로그인 페이지로 이동합니다.");
+			router.push("/auth/signin");
 		} catch (error) {
-			alert(error);
+			if (error instanceof Response) {
+				const body = await error.json();
+				alert(Object.values(body).join(""));
+			} else if (error instanceof Error) {
+				alert(error.name + " " + error.message);
+			}
 		}
 	};
 
