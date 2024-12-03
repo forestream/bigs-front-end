@@ -5,6 +5,7 @@ import Link from "next/link";
 import styles from "./page.module.scss";
 import { FormEventHandler } from "react";
 import { useRouter } from "next/navigation";
+import Input from "@/components/Input";
 
 export default function Page() {
 	const router = useRouter();
@@ -45,19 +46,19 @@ export default function Page() {
 				<h1>Bigs</h1>
 				<label htmlFor="name">
 					이름
-					<input id="name" name="name" />
+					<Input id="name" name="name" />
 				</label>
 				<label htmlFor="username">
 					이메일
-					<input id="username" name="username" />
+					<Input id="username" name="username" />
 				</label>
 				<label htmlFor="password">
 					비밀번호
-					<input id="password" type="password" name="password" />
+					<Input id="password" type="password" name="password" />
 				</label>
 				<label htmlFor="confirmPassword">
 					비밀번호 확인
-					<input id="confirmPassword" type="password" name="confirmPassword" />
+					<Input id="confirmPassword" type="password" name="confirmPassword" />
 				</label>
 				<button>회원가입</button>
 				<p>
