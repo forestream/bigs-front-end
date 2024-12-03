@@ -1,9 +1,9 @@
 "use client";
 
 import styles from "./page.module.scss";
-import { BASE_URL } from "@/lib/constants";
+import { BASE_URL, PAGES_PER_GROUP } from "@/lib/constants";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 export default function Page() {
 	const [categories, setCategories] = useState<{ [key: string]: string }>({});
@@ -26,11 +26,18 @@ export default function Page() {
 	}, []);
 
 	const [posts, setPosts] = useState<Post[]>([]);
+	const [page, setPage] = useState(1);
+	const [totalPages, setTotalPages] = useState(0);
+	const handleChangePage = (nextPage: number) => {
+		setPage(nextPage);
+	};
 
 	useEffect(() => {
 		const fetchAsync = async () => {
 			try {
-				const response = await fetch(`${BASE_URL}/api/boards?page=0&size=10`);
+				const response = await fetch(
+					`${BASE_URL}/api/boards?page=${page - 1}&size=10`
+				);
 
 				if (!response.ok) {
 					throw new Error(response.status + response.statusText);
@@ -39,13 +46,25 @@ export default function Page() {
 				const body = await response.json();
 
 				setPosts(body.content);
+				setTotalPages(body.totalPages);
 			} catch (error) {
 				console.error(error);
 			}
 		};
 
 		fetchAsync();
-	}, []);
+	}, [page]);
+
+	const pageGruop = useMemo(
+		() => Math.floor((page - 1) / PAGES_PER_GROUP),
+		[page]
+	);
+
+	const handleClickNextPageGroup = () =>
+		setPage(() => PAGES_PER_GROUP * (pageGruop + 1) + 1);
+
+	const handleClickPrevPageGroup = () =>
+		setPage(() => PAGES_PER_GROUP * (pageGruop - 1) + 5);
 
 	return (
 		<main className={styles.main}>
@@ -68,6 +87,23 @@ export default function Page() {
 					);
 				})}
 			</section>
+			<div className={styles.pagination}>
+				<button onClick={handleClickPrevPageGroup}>이전</button>
+				{Array.from({ length: PAGES_PER_GROUP }).map((_, i) => {
+					const pageNumber = PAGES_PER_GROUP * pageGruop + i + 1;
+
+					return pageNumber <= totalPages ? (
+						<button
+							className={pageNumber === page ? styles.selected : undefined}
+							key={i}
+							onClick={() => handleChangePage(pageNumber)}
+						>
+							{pageNumber}
+						</button>
+					) : null;
+				})}
+				<button onClick={handleClickNextPageGroup}>다음</button>
+			</div>
 			<Link href={"/posts/create"} className={styles.button}>
 				글 쓰기
 			</Link>
