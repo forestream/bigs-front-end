@@ -42,6 +42,10 @@
 			font-size: 0.75rem;
 		}
 	}
+
+	article {
+		white-space-collapse: preserve-breaks;
+	}
 }
 
 .button {

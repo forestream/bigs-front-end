@@ -6,3 +6,9 @@ type Post = {
 	id: number;
 	title: string;
 };
+
+type PostDetail = Omit<Post, "category"> & {
+	boardCategory: "NOTICE" | "FREE" | "QNA" | "ETC";
+	content: string;
+	imageUrl: string;
+};
