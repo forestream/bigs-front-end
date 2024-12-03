@@ -1,9 +1,12 @@
+@use "../../mixins";
+
 .nav {
 	display: flex;
 	justify-content: space-between;
 	padding: 1rem;
 	gap: 1rem;
 	align-items: center;
+	box-shadow: 0 2px 8px 4px rgba(0, 0, 0, 0.1);
 
 	.user {
 		display: flex;
@@ -11,11 +14,14 @@
 	}
 
 	.button {
-		padding: 0.5rem;
-		cursor: pointer;
+		@include mixins.button;
 	}
 }
 
-.grow {
+.pageTitle {
+	align-self: flex-end;
 	flex-grow: 1;
+	&:hover {
+		text-decoration: underline;
+	}
 }

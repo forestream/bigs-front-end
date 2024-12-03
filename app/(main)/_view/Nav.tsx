@@ -24,7 +24,7 @@ export default function Nav() {
 			<Link href="/">
 				<h1>Bigs</h1>
 			</Link>
-			<Link href="/posts" className={styles.grow}>
+			<Link href="/posts" className={styles.pageTitle}>
 				게시판
 			</Link>
 			{user && (

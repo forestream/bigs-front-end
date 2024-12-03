@@ -1,0 +1,40 @@
+@use "../../colors";
+@use "../../mixins";
+
+.main {
+	padding: 2rem;
+	display: flex;
+	flex-direction: column;
+
+	section {
+		margin-bottom: 5rem;
+
+		a:not(:last-child) {
+			border-bottom: 1px solid colors.$slate-10;
+		}
+
+		a {
+			&:hover .title {
+				text-decoration: underline;
+			}
+			display: flex;
+			padding: 1rem;
+
+			.category {
+				width: 100px;
+			}
+			.title {
+				flex-grow: 1;
+			}
+			.date {
+				font-size: 0.75rem;
+				color: colors.$slate-60;
+			}
+		}
+	}
+}
+
+.button {
+	@include mixins.button;
+	align-self: self-end;
+}

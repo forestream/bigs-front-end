@@ -2,6 +2,7 @@ import { MISSION_API_URL } from "@/lib/constants";
 import { cookies } from "next/headers";
 import Image from "next/image";
 import Link from "next/link";
+import styles from "./page.module.scss";
 
 export default async function Page({
 	params,
@@ -28,21 +29,27 @@ export default async function Page({
 	const minute = fullDate.getMinutes();
 
 	return (
-		<main>
-			<Link href="/posts">목록 보기</Link>
-			<h2>{title}</h2>
-			<p>{boardCategory}</p>
-			<p>
-				{year}년 {month}월 {date}일 {hour}:{minute}
-			</p>
+		<main className={styles.main}>
+			<Link href="/posts" className={styles.breadcrumbs}>
+				목록 보기
+			</Link>
+			<section>
+				<h2>{title}</h2>
+				<p>{boardCategory}</p>
+				<p>
+					{year}년 {month}월 {date}일 {hour}:{minute}
+				</p>
+			</section>
 			<article>
-				<Image
-					src={`${MISSION_API_URL}${imageUrl}`}
-					alt="게시글 이미지"
-					width={400}
-					height={300}
-				/>
-				<p>{content}</p>
+				{imageUrl && (
+					<Image
+						src={`${MISSION_API_URL}${imageUrl}`}
+						alt="게시글 이미지"
+						width={400}
+						height={300}
+					/>
+				)}
+				<p className={styles.content}>{content}</p>
 			</article>
 		</main>
 	);
