@@ -1,5 +1,5 @@
 "use client";
-
+import styles from "./page.module.scss";
 import { BASE_URL } from "@/lib/constants";
 import { FormEventHandler, useEffect, useState } from "react";
 
@@ -49,10 +49,9 @@ export default function Page() {
 	};
 
 	return (
-		<main>
+		<main className={styles.main}>
+			<h2>글 쓰기</h2>
 			<form onSubmit={handleSubmit}>
-				<input id="title" name="title" />
-				<textarea id="content" name="content" />
 				<select id="category" name="category">
 					{Object.keys(categories).map((category) => (
 						<option key={category} value={category}>
@@ -60,7 +59,12 @@ export default function Page() {
 						</option>
 					))}
 				</select>
-				<input id="file" name="file" type="file" />
+				<input id="title" name="title" />
+				<textarea id="content" name="content" />
+				<label htmlFor="file">
+					파일 업로드
+					<input id="file" name="file" type="file" />
+				</label>
 				<button>작성하기</button>
 			</form>
 		</main>

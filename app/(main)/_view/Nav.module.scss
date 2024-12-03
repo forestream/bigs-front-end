@@ -8,6 +8,10 @@
 	align-items: center;
 	box-shadow: 0 2px 8px 4px rgba(0, 0, 0, 0.1);
 
+	.logo {
+		margin-right: 2rem;
+	}
+
 	.user {
 		display: flex;
 		gap: 0.5rem;
@@ -18,10 +22,11 @@
 	}
 }
 
-.pageTitle {
+.menu {
 	align-self: flex-end;
 	flex-grow: 1;
-	&:hover {
+
+	a:hover {
 		text-decoration: underline;
 	}
 }

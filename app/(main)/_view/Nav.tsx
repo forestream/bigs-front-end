@@ -21,12 +21,12 @@ export default function Nav() {
 
 	return (
 		<header className={styles.nav}>
-			<Link href="/">
+			<Link href="/" className={styles.logo}>
 				<h1>Bigs</h1>
 			</Link>
-			<Link href="/posts" className={styles.pageTitle}>
-				게시판
-			</Link>
+			<div className={styles.menu}>
+				<Link href="/posts">게시판</Link>
+			</div>
 			{user && (
 				<div className={styles.user}>
 					<p>{user.username}</p>

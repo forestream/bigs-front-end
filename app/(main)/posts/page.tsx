@@ -49,6 +49,7 @@ export default function Page() {
 
 	return (
 		<main className={styles.main}>
+			<h2>게시판</h2>
 			<section>
 				{posts.map((post) => {
 					const createdAt = new Date(post.createdAt);
