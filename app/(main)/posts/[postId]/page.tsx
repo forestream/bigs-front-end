@@ -3,6 +3,7 @@ import { cookies } from "next/headers";
 import Image from "next/image";
 import Link from "next/link";
 import styles from "./page.module.scss";
+import PostOptions from "./_view/PostOptions";
 
 export default async function Page({
 	params,
@@ -30,9 +31,12 @@ export default async function Page({
 
 	return (
 		<main className={styles.main}>
-			<Link href="/posts" className={styles.breadcrumbs}>
-				목록 보기
-			</Link>
+			<div className={styles.postHeader}>
+				<Link href="/posts" className={styles.breadcrumbs}>
+					목록 보기
+				</Link>
+				<PostOptions postId={postId} />
+			</div>
 			<section>
 				<h2>{title}</h2>
 				<p>{boardCategory}</p>
