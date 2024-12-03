@@ -1,4 +1,4 @@
-import { MISSION_API_URL } from "@/lib/constants";
+import { ACCESS_TOKEN_AGE, MISSION_API_URL } from "@/lib/constants";
 import { parseJwt } from "@/lib/utils/parseJwt";
 import { NextResponse } from "next/server";
 
@@ -34,7 +34,7 @@ export async function POST(request: Request) {
 
 	nextResponse.cookies.set("at", body.accessToken, {
 		httpOnly: true,
-		maxAge: 300,
+		maxAge: ACCESS_TOKEN_AGE,
 	});
 	nextResponse.cookies.set("rt", body.refreshToken, { httpOnly: true });
 

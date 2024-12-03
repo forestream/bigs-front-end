@@ -1,8 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
-import { MISSION_API_URL } from "./lib/constants";
+import { ACCESS_TOKEN_AGE, MISSION_API_URL } from "./lib/constants";
 
 export async function middleware(request: NextRequest) {
-	if (!request.cookies.has("at") && request.cookies.has("rt")) {
+	const accessToken = request.cookies.get("at")?.value;
+	const refreshToken = request.cookies.get("rt")?.value;
+
+	if (!accessToken && refreshToken) {
 		const response = await fetch(`${MISSION_API_URL}/auth/refresh`, {
 			method: "POST",
 			headers: {
@@ -19,11 +22,23 @@ export async function middleware(request: NextRequest) {
 
 		nextResponse.cookies.set("at", body.accessToken, {
 			httpOnly: true,
-			maxAge: 300,
+			maxAge: ACCESS_TOKEN_AGE,
 		});
 		nextResponse.cookies.set("rt", body.refreshToken, { httpOnly: true });
 
-		return NextResponse.next({ headers: nextResponse.headers });
+		request.headers.set("Authorization", `Bearer ${body.accessToken}`);
+
+		return NextResponse.redirect(request.url, {
+			headers: nextResponse.headers,
+		});
+	}
+
+	if (request.nextUrl.pathname.startsWith("/post")) {
+		if (!accessToken && !refreshToken) {
+			return NextResponse.redirect(
+				new URL("/auth/signin", request.nextUrl.origin)
+			);
+		}
 	}
 
 	if (request.nextUrl.pathname.startsWith("/api/boards")) {
