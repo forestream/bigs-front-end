@@ -52,3 +52,20 @@
 	@include mixins.button;
 	align-self: self-end;
 }
+
+.modalContent {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+}
+
+.modalButtons {
+	display: flex;
+	justify-content: center;
+	gap: 0.5rem;
+}
+
+.modalButton {
+	@include mixins.button;
+	width: 100%;
+}

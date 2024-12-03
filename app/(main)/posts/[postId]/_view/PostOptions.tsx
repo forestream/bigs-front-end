@@ -3,6 +3,8 @@
 import { BASE_URL } from "@/lib/constants";
 import styles from "../page.module.scss";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import Modal from "@/components/Modal";
 
 export default function PostOptions({ postId }: { postId: string }) {
 	const router = useRouter();
@@ -22,10 +24,34 @@ export default function PostOptions({ postId }: { postId: string }) {
 		} catch {}
 	};
 
+	const [isOpen, setIsOpen] = useState(false);
+	const handleIsOpen = (isOpen: boolean) => setIsOpen(isOpen);
+
 	return (
-		<div className={styles.options}>
-			<button onClick={handleEdit}>수정</button>
-			<button onClick={handleDelete}>삭제</button>
-		</div>
+		<>
+			<div className={styles.options}>
+				<button onClick={handleEdit}>수정</button>
+				<button onClick={() => handleIsOpen(true)}>삭제</button>
+			</div>
+			<Modal isOpen={isOpen}>
+				<Modal.Overlay>
+					<Modal.Content className={styles.modalContent}>
+						<p>게시글을 지우시겠습니까?</p>
+						<p>삭제된 글은 복구할 수 없습니다.</p>
+						<div className={styles.modalButtons}>
+							<button className={styles.modalButton} onClick={handleDelete}>
+								삭제
+							</button>
+							<button
+								className={styles.modalButton}
+								onClick={() => handleIsOpen(false)}
+							>
+								취소
+							</button>
+						</div>
+					</Modal.Content>
+				</Modal.Overlay>
+			</Modal>
+		</>
 	);
 }
