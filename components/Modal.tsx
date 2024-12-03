@@ -12,7 +12,7 @@ export default function Modal({
 	isOpen,
 	children,
 }: PropsWithChildren<ModalProps>) {
-	return <>{isOpen && createPortal(<>{children}</>, document.body)};</>;
+	return <>{isOpen && createPortal(<>{children}</>, document.body)}</>;
 }
 
 function ModalOverlay({ children }: PropsWithChildren) {

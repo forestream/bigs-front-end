@@ -1,9 +1,12 @@
 "use client";
 import styles from "./page.module.scss";
 import { BASE_URL } from "@/lib/constants";
+import { useRouter } from "next/navigation";
 import { FormEventHandler, useEffect, useState } from "react";
 
 export default function Page() {
+	const router = useRouter();
+
 	const [categories, setCategories] = useState<{ [key: string]: string }>({});
 
 	useEffect(() => {
@@ -44,7 +47,7 @@ export default function Page() {
 				body: newFormData,
 			});
 
-			const body = await response.json();
+			router.push("/posts");
 		} catch {}
 	};
 

@@ -5,8 +5,11 @@ import styles from "./page.module.scss";
 import { BASE_URL } from "@/lib/constants";
 import { FormEventHandler, useEffect, useState } from "react";
 import Textarea from "@/components/Textarea";
+import { useRouter } from "next/navigation";
 
 export default function ClientPage({ post }: { post: PostDetail }) {
+	const router = useRouter();
+
 	const [categories, setCategories] = useState<{ [key: string]: string }>({});
 
 	useEffect(() => {
@@ -47,7 +50,10 @@ export default function ClientPage({ post }: { post: PostDetail }) {
 				body: newFormData,
 			});
 
-			const body = await response.json();
+			if (!response.ok) throw response;
+
+			alert("게시글이 수정되었습니다.");
+			router.push(`/posts/${post.id}`);
 		} catch {}
 	};
 
