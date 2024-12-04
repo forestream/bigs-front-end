@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { ACCESS_TOKEN_AGE, MISSION_API_URL } from "./lib/constants";
+import { ACCESS_TOKEN_AGE, BASE_URL, MISSION_API_URL } from "./lib/constants";
 
 export async function middleware(request: NextRequest) {
 	const accessToken = request.cookies.get("at")?.value;
@@ -15,6 +15,9 @@ export async function middleware(request: NextRequest) {
 				refreshToken: request.cookies.get("rt")?.value,
 			}),
 		});
+
+		if (!response.ok)
+			return NextResponse.redirect(new URL(`${BASE_URL}/auth/signin`));
 
 		const body = await response.json();
 
