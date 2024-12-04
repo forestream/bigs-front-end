@@ -39,6 +39,12 @@ export async function middleware(request: NextRequest) {
 		});
 	}
 
+	if (request.nextUrl.pathname === "/") {
+		if (accessToken) {
+			return NextResponse.redirect(new URL("/posts", request.nextUrl.origin));
+		}
+	}
+
 	if (request.nextUrl.pathname.startsWith("/posts")) {
 		if (!accessToken && !refreshToken) {
 			return NextResponse.redirect(
@@ -65,5 +71,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-	matcher: ["/api/:path*", "/posts/:path*"],
+	matcher: ["/", "/api/:path*", "/posts/:path*"],
 };

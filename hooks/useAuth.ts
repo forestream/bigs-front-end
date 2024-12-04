@@ -3,11 +3,15 @@
 import { checkAuthState, deleteAuthCookies } from "@/app/actions";
 import { BASE_URL } from "@/lib/constants";
 import { createStore } from "@/stores/createStore";
+import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useSyncExternalStore } from "react";
 
 export function useAuth(
 	authStore: ReturnType<typeof createStore<User | null>>
 ) {
+	const pathname = usePathname();
+	const router = useRouter();
+
 	const user = useSyncExternalStore(
 		authStore.subscribe,
 		authStore.get,
@@ -51,7 +55,8 @@ export function useAuth(
 	const signOut = useCallback(() => {
 		authStore.set(null);
 		deleteAuthCookies();
-	}, [authStore]);
+		if (pathname.includes("posts")) router.push("/");
+	}, [authStore, pathname, router]);
 
 	const auth = useMemo(() => {
 		console.log("auth rerendered");
