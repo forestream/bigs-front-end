@@ -1,7 +1,11 @@
 @use "../../../../mixins";
+@use "../../../../variables";
 
 .main {
-	padding: 3rem;
+	padding: 1.25rem 1.25rem 4rem;
+	@media (min-width: variables.$media-md) {
+		padding: 3rem;
+	}
 
 	& > h2 {
 		margin-bottom: 2rem;
