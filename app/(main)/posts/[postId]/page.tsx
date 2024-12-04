@@ -46,12 +46,13 @@ export default async function Page({
 			</section>
 			<article>
 				{imageUrl && (
-					<Image
-						src={`${MISSION_API_URL}${imageUrl}`}
-						alt="게시글 이미지"
-						width={400}
-						height={300}
-					/>
+					<div className={styles.image}>
+						<Image
+							src={`${MISSION_API_URL}${imageUrl}`}
+							alt="게시글 이미지"
+							fill
+						/>
+					</div>
 				)}
 				<p className={styles.content}>{content}</p>
 			</article>
