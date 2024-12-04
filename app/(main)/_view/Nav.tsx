@@ -3,20 +3,17 @@
 import { useAuth } from "@/hooks/useAuth";
 import styles from "./Nav.module.scss";
 import { useRouter } from "next/navigation";
-import { deleteServerAuthCookies } from "@/app/actions";
 import { authStore } from "@/stores/authStore";
 import Link from "next/link";
 
 export default function Nav() {
 	const router = useRouter();
 
-	const [user, setUser] = useAuth(authStore);
+	const { user, signOut } = useAuth(authStore);
 
 	const handleSignin = () => router.push("/auth/signin");
 	const handleSignout = () => {
-		deleteServerAuthCookies();
-		window.localStorage.removeItem("user");
-		setUser(null);
+		signOut();
 	};
 
 	return (

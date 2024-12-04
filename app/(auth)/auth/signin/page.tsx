@@ -11,7 +11,7 @@ import { FormEventHandler, useEffect } from "react";
 export default function Page() {
 	const router = useRouter();
 
-	const [user, setUser] = useAuth(authStore);
+	const { user, signIn } = useAuth(authStore);
 
 	useEffect(() => {
 		if (user) router.push("/");
@@ -22,26 +22,7 @@ export default function Page() {
 
 		const formData = new FormData(e.target as HTMLFormElement);
 
-		try {
-			const response = await fetch(`${BASE_URL}/api/auth`, {
-				method: "POST",
-				body: formData,
-			});
-
-			if (!response.ok) throw response;
-
-			const body = await response.json();
-
-			window.localStorage.setItem("user", JSON.stringify(body));
-			setUser({ username: body.username, name: body.name });
-		} catch (error) {
-			if (error instanceof Response) {
-				const body = await error.json();
-				alert(body.message);
-			} else {
-				alert(error);
-			}
-		}
+		signIn(formData);
 	};
 
 	return (

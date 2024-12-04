@@ -5,7 +5,11 @@ export async function middleware(request: NextRequest) {
 	const accessToken = request.cookies.get("at")?.value;
 	const refreshToken = request.cookies.get("rt")?.value;
 
-	if (!accessToken && refreshToken) {
+	if (
+		!accessToken &&
+		refreshToken &&
+		!request.nextUrl.pathname.startsWith("/api/auth")
+	) {
 		const response = await fetch(`${MISSION_API_URL}/auth/refresh`, {
 			method: "POST",
 			headers: {
@@ -16,8 +20,9 @@ export async function middleware(request: NextRequest) {
 			}),
 		});
 
-		if (!response.ok)
+		if (!response.ok) {
 			return NextResponse.redirect(new URL(`${BASE_URL}/auth/signin`));
+		}
 
 		const body = await response.json();
 
@@ -28,8 +33,6 @@ export async function middleware(request: NextRequest) {
 			maxAge: ACCESS_TOKEN_AGE,
 		});
 		nextResponse.cookies.set("rt", body.refreshToken, { httpOnly: true });
-
-		request.headers.set("Authorization", `Bearer ${body.accessToken}`);
 
 		return NextResponse.redirect(request.url, {
 			headers: nextResponse.headers,

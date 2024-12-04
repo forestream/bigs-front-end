@@ -1,12 +1,13 @@
 "use client";
 
+import { checkAuthState, deleteAuthCookies } from "@/app/actions";
 import { BASE_URL } from "@/lib/constants";
 import { createStore } from "@/stores/createStore";
-import { useEffect, useSyncExternalStore } from "react";
+import { useCallback, useEffect, useMemo, useSyncExternalStore } from "react";
 
 export function useAuth(
 	authStore: ReturnType<typeof createStore<User | null>>
-): [ReturnType<(typeof authStore)["get"]>, (typeof authStore)["set"]] {
+) {
 	const user = useSyncExternalStore(
 		authStore.subscribe,
 		authStore.get,
@@ -14,40 +15,52 @@ export function useAuth(
 	);
 
 	useEffect(() => {
-		const user = JSON.parse(window.localStorage.getItem("user") ?? "null");
+		const checkAuthStateAsync = async () => {
+			const user = await checkAuthState();
+			authStore.set(user);
+		};
 
-		if (user) {
-			const expiration = new Date(user.exp * 1000);
-			const now = new Date();
+		checkAuthStateAsync();
+	}, []);
 
-			if (now < expiration) {
-				authStore.set({ username: user.username, name: user.name });
-			} else {
-				const fetchAsync = async () => {
-					try {
-						const response = await fetch(`${BASE_URL}/api/auth/refresh`);
+	const signIn = useCallback(
+		async (formData: FormData) => {
+			try {
+				const response = await fetch(`${BASE_URL}/api/auth`, {
+					method: "POST",
+					body: formData,
+				});
 
-						if (!response.ok) {
-							throw new Error(
-								"인증을 갱신할 수 없습니다. 다시 로그인 해주세요."
-							);
-						}
+				if (!response.ok) throw response;
 
-						const body = await response.json();
+				const body = await response.json();
 
-						authStore.set({ username: body.username, name: body.name });
-						window.localStorage.setItem("user", JSON.stringify(body));
-					} catch (error) {
-						console.error(error);
-						authStore.set(null);
-						window.localStorage.removeItem("user");
-					}
-				};
-
-				fetchAsync();
+				authStore.set(body);
+			} catch (error) {
+				if (error instanceof Response) {
+					const body = await error.json();
+					alert(body.message);
+				} else {
+					alert(error);
+				}
 			}
-		}
+		},
+		[authStore]
+	);
+
+	const signOut = useCallback(() => {
+		authStore.set(null);
+		deleteAuthCookies();
 	}, [authStore]);
 
-	return [user, authStore.set];
+	const auth = useMemo(() => {
+		console.log("auth rerendered");
+		return {
+			user,
+			signIn,
+			signOut,
+		};
+	}, [user, signIn, signOut]);
+
+	return auth;
 }
