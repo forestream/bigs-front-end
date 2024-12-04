@@ -20,6 +20,15 @@ export default async function Page({
 
 	const body = await response.json();
 
+	const categoriesResponse = await fetch(
+		`${MISSION_API_URL}/boards/categories`,
+		{
+			headers: { Authorization: `Bearer ${accessToken}` },
+		}
+	);
+
+	const categories = await categoriesResponse.json();
+
 	const { title, boardCategory, createdAt, imageUrl, content } = body;
 
 	const fullDate = new Date(createdAt);
@@ -39,7 +48,7 @@ export default async function Page({
 			</div>
 			<section>
 				<h2>{title}</h2>
-				<p>{boardCategory}</p>
+				<p>{categories[boardCategory]}</p>
 				<p>
 					{year}년 {month}월 {date}일 {hour}:{minute}
 				</p>

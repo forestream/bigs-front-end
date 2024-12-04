@@ -67,6 +67,12 @@ export default function Nav() {
 				<div className={styles.menu}>
 					<Link href="/posts">게시판</Link>
 				</div>
+				{user && (
+					<div className={styles.user}>
+						<p>{user.username}</p>
+						<p>{user.name}</p>
+					</div>
+				)}
 				<button
 					onClick={user ? handleSignout : handleSignin}
 					className={styles.button}

@@ -5,12 +5,12 @@
 .main {
 	margin: 2rem 0 10rem;
 	padding: 0 1rem;
+	display: flex;
+	flex-direction: column;
 	@media (min-width: variables.$media-md) {
 		margin-top: 4rem;
 		padding: 0 3rem;
 	}
-	display: flex;
-	flex-direction: column;
 
 	.postHeader {
 		margin-bottom: 2rem;

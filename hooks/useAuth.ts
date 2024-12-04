@@ -59,7 +59,6 @@ export function useAuth(
 	}, [authStore, pathname, router]);
 
 	const auth = useMemo(() => {
-		console.log("auth rerendered");
 		return {
 			user,
 			signIn,
