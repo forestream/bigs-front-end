@@ -1,3 +1,4 @@
+import styles from "./page.module.scss";
 import Nav from "./_view/Nav";
 
 export default function Layout({
@@ -8,7 +9,7 @@ export default function Layout({
 	return (
 		<>
 			<Nav />
-			{children}
+			<div className={styles.outer}>{children}</div>
 		</>
 	);
 }
