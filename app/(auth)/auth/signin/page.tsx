@@ -28,20 +28,19 @@ export default function Page() {
 				body: formData,
 			});
 
-			if (!response.ok)
-				throw new Error(
-					"로그인에 실패했습니다: " +
-						response.status +
-						" " +
-						response.statusText
-				);
+			if (!response.ok) throw response;
 
 			const body = await response.json();
 
 			window.localStorage.setItem("user", JSON.stringify(body));
 			setUser({ username: body.username, name: body.name });
 		} catch (error) {
-			alert(error);
+			if (error instanceof Response) {
+				const body = await error.json();
+				alert(body.message);
+			} else {
+				alert(error);
+			}
 		}
 	};
 
