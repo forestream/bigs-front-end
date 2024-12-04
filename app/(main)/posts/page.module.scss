@@ -1,13 +1,20 @@
+@use "../../variables";
 @use "../../colors";
 @use "../../mixins";
 
 .main {
-	padding: 2rem;
+	padding: 1rem;
+	@media (min-width: variables.$media-md) {
+		padding: 2rem;
+	}
 	display: flex;
 	flex-direction: column;
 
 	& > h2 {
-		margin: 2rem 0;
+		margin: 1rem 0;
+		@media (min-width: variables.$media-md) {
+			margin: 2rem 0;
+		}
 	}
 
 	section {
@@ -22,15 +29,33 @@
 				text-decoration: underline;
 			}
 			display: flex;
-			padding: 1rem;
+			align-items: center;
+			padding: 1rem 0;
+			@media (min-width: variables.$media-md) {
+				padding: 1rem;
+			}
 
 			.category {
-				width: 100px;
+				width: 60px;
+				flex-shrink: 0;
+				@media (min-width: variables.$media-md) {
+					width: 100px;
+				}
 			}
 			.title {
+				width: 100%;
 				flex-grow: 1;
+				overflow: hidden;
+				white-space: nowrap;
+				text-overflow: ellipsis;
 			}
 			.date {
+				width: 3rem;
+				text-align: center;
+				@media (min-width: variables.$media-md) {
+					width: auto;
+				}
+				flex-shrink: 0;
 				font-size: 0.75rem;
 				color: colors.$slate-60;
 			}
