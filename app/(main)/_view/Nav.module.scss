@@ -1,3 +1,4 @@
+@use "../../colors";
 @use "../../mixins";
 @use "../../variables";
 
@@ -16,7 +17,7 @@
 
 	.logo {
 		margin-right: 2rem;
-		width: 100%;
+		// width: 100%;
 
 		@media (min-width: variables.$media-sm) {
 			width: auto;
@@ -39,10 +40,39 @@
 }
 
 .menu {
-	// align-self: flex-end;
 	flex-grow: 1;
 
 	a:hover {
 		text-decoration: underline;
 	}
+}
+
+.hamburger {
+	@media (min-width: variables.$media-md) {
+		display: none;
+	}
+	background-color: unset;
+	border: unset;
+	border-radius: 4px;
+	padding: 0.25rem;
+	&:active {
+		background-color: colors.$slate-5;
+	}
+
+	svg {
+		width: 24px;
+		height: 24px;
+	}
+	position: relative;
+	top: 2px;
+}
+
+.navInner {
+	display: none;
+	@media (min-width: variables.$media-md) {
+		display: flex;
+		gap: 1rem;
+		align-items: center;
+	}
+	flex-grow: 1;
 }

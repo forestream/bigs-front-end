@@ -5,6 +5,7 @@ import styles from "./Nav.module.scss";
 import { useRouter } from "next/navigation";
 import { authStore } from "@/stores/authStore";
 import Link from "next/link";
+import IconHamBurger from "@/components/Icons/IconHamburger";
 
 export default function Nav() {
 	const router = useRouter();
@@ -21,21 +22,26 @@ export default function Nav() {
 			<Link href="/" className={styles.logo}>
 				<h1>Bigs</h1>
 			</Link>
-			<div className={styles.menu}>
-				<Link href="/posts">게시판</Link>
-			</div>
-			{user && (
-				<div className={styles.user}>
-					<p>{user.username}</p>
-					<p>{user.name}</p>
-				</div>
-			)}
-			<button
-				onClick={user ? handleSignout : handleSignin}
-				className={styles.button}
-			>
-				{user ? "로그아웃" : "로그인"}
+			<button className={styles.hamburger}>
+				<IconHamBurger />
 			</button>
+			<div className={styles.navInner}>
+				<div className={styles.menu}>
+					<Link href="/posts">게시판</Link>
+				</div>
+				{user && (
+					<div className={styles.user}>
+						<p>{user.username}</p>
+						<p>{user.name}</p>
+					</div>
+				)}
+				<button
+					onClick={user ? handleSignout : handleSignin}
+					className={styles.button}
+				>
+					{user ? "로그아웃" : "로그인"}
+				</button>
+			</div>
 		</header>
 	);
 }
