@@ -1,59 +1,35 @@
 "use client";
 
+import useFetch from "@/hooks/useFetch";
 import styles from "./page.module.scss";
 import { BASE_URL, PAGES_PER_GROUP } from "@/lib/constants";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 
 export default function Page() {
-	const [categories, setCategories] = useState<{ [key: string]: string }>({});
+	const { data: categories } = useFetch<Record<Categories, string>>(
+		{
+			url: `${BASE_URL}/api/boards/categories`,
+		},
+		[]
+	);
 
-	useEffect(() => {
-		const fetchAsync = async () => {
-			try {
-				const response = await fetch(`${BASE_URL}/api/boards/categories`);
-
-				if (!response.ok)
-					throw new Error(response.status + response.statusText);
-
-				const body = await response.json();
-
-				setCategories(body);
-			} catch {}
-		};
-
-		fetchAsync();
-	}, []);
-
-	const [posts, setPosts] = useState<Post[]>([]);
 	const [page, setPage] = useState(1);
 	const [totalPages, setTotalPages] = useState(0);
 	const handleChangePage = (nextPage: number) => {
 		setPage(nextPage);
 	};
 
+	const { data: posts } = useFetch<Posts>(
+		{
+			url: `${BASE_URL}/api/boards?page=${page - 1}&size=10`,
+		},
+		[page]
+	);
+
 	useEffect(() => {
-		const fetchAsync = async () => {
-			try {
-				const response = await fetch(
-					`${BASE_URL}/api/boards?page=${page - 1}&size=10`
-				);
-
-				if (!response.ok) {
-					throw new Error(response.status + response.statusText);
-				}
-
-				const body = await response.json();
-
-				setPosts(body.content);
-				setTotalPages(body.totalPages);
-			} catch (error) {
-				console.error(error);
-			}
-		};
-
-		fetchAsync();
-	}, [page]);
+		if (posts) setTotalPages(posts.totalPages);
+	}, [posts]);
 
 	const pageGruop = useMemo(
 		() => Math.floor((page - 1) / PAGES_PER_GROUP),
@@ -70,7 +46,7 @@ export default function Page() {
 		<main className={styles.main}>
 			<h2>게시판</h2>
 			<section>
-				{posts.map((post) => {
+				{posts?.content.map((post) => {
 					const createdAt = new Date(post.createdAt);
 					const year = createdAt.getFullYear();
 					const month = createdAt.getMonth() + 1;
@@ -78,7 +54,9 @@ export default function Page() {
 
 					return (
 						<Link key={post.id} href={`/posts/${post.id}`}>
-							<p className={styles.category}>{categories[post.category]}</p>
+							<p className={styles.category}>
+								{categories && categories[post.category]}
+							</p>
 							<p className={styles.title}>{post.title}</p>
 							<p className={styles.date}>
 								{year}년 {month}월 {date}일

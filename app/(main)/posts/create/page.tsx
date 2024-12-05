@@ -1,30 +1,19 @@
 "use client";
+import useFetch from "@/hooks/useFetch";
 import styles from "./page.module.scss";
 import { BASE_URL } from "@/lib/constants";
 import { useRouter } from "next/navigation";
-import { FormEventHandler, useEffect, useState } from "react";
+import { FormEventHandler } from "react";
 
 export default function Page() {
 	const router = useRouter();
 
-	const [categories, setCategories] = useState<{ [key: string]: string }>({});
-
-	useEffect(() => {
-		const fetchAsync = async () => {
-			try {
-				const response = await fetch(`${BASE_URL}/api/boards/categories`);
-
-				if (!response.ok)
-					throw new Error(response.status + response.statusText);
-
-				const body = await response.json();
-
-				setCategories(body);
-			} catch {}
-		};
-
-		fetchAsync();
-	}, []);
+	const { data: categories } = useFetch<Record<Categories, string>>(
+		{
+			url: `${BASE_URL}/api/boards/categories`,
+		},
+		[]
+	);
 
 	const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
 		e.preventDefault();
@@ -55,13 +44,15 @@ export default function Page() {
 		<main className={styles.main}>
 			<h2>글 쓰기</h2>
 			<form onSubmit={handleSubmit}>
-				<select id="category" name="category">
-					{Object.keys(categories).map((category) => (
-						<option key={category} value={category}>
-							{categories[category]}
-						</option>
-					))}
-				</select>
+				{categories && (
+					<select id="category" name="category">
+						{(Object.keys(categories) as Categories[]).map((category) => (
+							<option key={category} value={category}>
+								{categories[category]}
+							</option>
+						))}
+					</select>
+				)}
 				<input id="title" name="title" />
 				<textarea id="content" name="content" />
 				<label htmlFor="file">
