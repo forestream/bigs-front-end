@@ -2,7 +2,6 @@
 
 import styles from "./page.module.scss";
 import { useAuth } from "@/hooks/useAuth";
-import { BASE_URL } from "@/lib/constants";
 import { authStore } from "@/stores/authStore";
 import Link from "next/link";
 import { useRouter } from "next/navigation";

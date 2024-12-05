@@ -33,7 +33,7 @@ export default function ClientPage({ post }: { post: PostDetail }) {
 		e.preventDefault();
 
 		const formData = new FormData(e.target as HTMLFormElement);
-		const file = formData.get("file") as File;
+		const file = formData.get("file");
 		formData.delete("file");
 		const request = new Blob(
 			[JSON.stringify(Object.fromEntries(formData.entries()))],
@@ -42,7 +42,7 @@ export default function ClientPage({ post }: { post: PostDetail }) {
 
 		const newFormData = new FormData();
 		newFormData.append("request", request);
-		file.size && newFormData.append("file", file);
+		if (file instanceof File && file.size) newFormData.append("file", file);
 
 		try {
 			const response = await fetch(`${BASE_URL}/api/boards/${post.id}`, {

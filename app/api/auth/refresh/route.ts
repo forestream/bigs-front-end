@@ -31,7 +31,9 @@ export async function GET(request: NextRequest) {
 		body = await response.json();
 	} catch (response) {
 		// 로그인 실패 시 API 응답을 그대로 클라이언트에 전달
-		return response;
+		if (response instanceof Response) {
+			return response;
+		}
 	}
 
 	const jwt = parseJwt(body.accessToken);
