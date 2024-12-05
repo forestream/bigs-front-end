@@ -19,6 +19,8 @@ export default function useFetch<T>(
 		const signal = controller.signal;
 
 		(async () => {
+			setError(null);
+			setIsError(false);
 			setIsLoading(true);
 
 			try {
@@ -40,7 +42,6 @@ export default function useFetch<T>(
 			}
 		})();
 
-		console.log("effect");
 		return () => controller.abort();
 	}, deps);
 

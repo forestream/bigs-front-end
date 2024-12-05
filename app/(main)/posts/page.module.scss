@@ -17,14 +17,15 @@
 		}
 	}
 
-	section {
+	.posts {
+		min-height: 500px;
 		margin-bottom: 2rem;
 
-		a:not(:last-child) {
+		.post:not(:last-child) {
 			border-bottom: 1px solid colors.$slate-10;
 		}
 
-		a {
+		.post {
 			&:hover .title {
 				text-decoration: underline;
 			}
@@ -61,6 +62,29 @@
 			}
 		}
 	}
+}
+
+@keyframes glimmer {
+	100% {
+		background-position: right center;
+	}
+}
+
+.postGlimmer {
+	height: 1.125rem;
+	width: 100%;
+	min-width: 3rem;
+	background-image: linear-gradient(
+		-45deg,
+		rgb(235, 235, 235),
+		rgb(248, 248, 248) 30%,
+		rgb(235, 235, 235)
+	);
+	background-size: 50%;
+	background-position: left center;
+	margin-right: 2rem;
+	border-radius: 6px;
+	animation: 2s linear 0s infinite normal forwards running glimmer;
 }
 
 .button {
