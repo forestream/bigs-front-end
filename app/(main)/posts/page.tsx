@@ -37,10 +37,16 @@ export default function Page() {
 	);
 
 	const handleClickNextPageGroup = () =>
-		setPage(() => PAGES_PER_GROUP * (pageGruop + 1) + 1);
+		setPage(() => {
+			const nextPage = PAGES_PER_GROUP * (pageGruop + 1) + 1;
+			return nextPage > totalPages ? totalPages : nextPage;
+		});
 
 	const handleClickPrevPageGroup = () =>
-		setPage(() => PAGES_PER_GROUP * (pageGruop - 1) + 5);
+		setPage(() => {
+			const nextPage = PAGES_PER_GROUP * (pageGruop - 1) + 5;
+			return nextPage < 1 ? 1 : nextPage;
+		});
 
 	return (
 		<main className={styles.main}>
