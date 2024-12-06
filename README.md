@@ -5,9 +5,23 @@
 # 실행방법
 
 1. 레포지토리를 클론 후 터미널에서 `npm install` 하여 패키지를 설치해주세요. (사전에 Node.js 설치가 필요합니다.)
-2. 설치 완료 후 `npm run dev`하면 개발환경으로 실행할 수 있습니다.
-3. `npm run build`로 빌드 후 `npm run start` 입력하여 프로덕션 환경으로 실행할 수 있습니다.
+2. 환경변수를 설정해야 합니다.
+   루트 폴더에 `.env` 파일을 생성하고 아래 값을 저장해주세요.
+
+```
+NEXT_PUBLIC_BASE_URL_DEV=http://localhost:3000
+NEXT_PUBLIC_BASE_URL=https://bigs-front-end.vercel.app
+```
+
+3. `npm run dev`하면 개발환경으로 실행할 수 있습니다.
+4. `npm run build`로 빌드 후 `npm run start` 입력하여 프로덕션 환경으로 실행할 수 있습니다.
+
+## 배포주소
+
+https://bigs-front-end.vercel.app
 
 # Bigs
+
 빅스홀딩스 사전 테스트 과제 제출용 프로젝트입니다.
-- 제공받은 API를 활용하여 로그인 / 글 작성, 수정이 가능합니다. 
+
+- 제공받은 API를 활용하여 로그인 / 글 작성, 수정이 가능합니다.
