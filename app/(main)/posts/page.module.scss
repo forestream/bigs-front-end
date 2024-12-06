@@ -1,0 +1,117 @@
+@use "../../variables";
+@use "../../colors";
+@use "../../mixins";
+
+.main {
+	padding: 1rem;
+	display: flex;
+	flex-direction: column;
+	@media (min-width: variables.$media-md) {
+		padding: 2rem;
+	}
+
+	& > h2 {
+		margin: 1rem 0;
+		@media (min-width: variables.$media-md) {
+			margin: 2rem 0;
+		}
+	}
+
+	.posts {
+		min-height: 500px;
+		margin-bottom: 2rem;
+
+		.post:not(:last-child) {
+			border-bottom: 1px solid colors.$slate-10;
+		}
+
+		.post {
+			&:hover .title {
+				text-decoration: underline;
+			}
+			display: flex;
+			align-items: center;
+			padding: 1rem 0;
+			@media (min-width: variables.$media-md) {
+				padding: 1rem;
+			}
+
+			.category {
+				width: 60px;
+				flex-shrink: 0;
+				@media (min-width: variables.$media-md) {
+					width: 100px;
+				}
+			}
+			.title {
+				width: 100%;
+				flex-grow: 1;
+				overflow: hidden;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+			}
+			.date {
+				width: 3rem;
+				text-align: center;
+				flex-shrink: 0;
+				font-size: 0.75rem;
+				color: colors.$slate-60;
+				@media (min-width: variables.$media-md) {
+					width: auto;
+				}
+			}
+		}
+	}
+}
+
+@keyframes glimmer {
+	100% {
+		background-position: right center;
+	}
+}
+
+.postGlimmer {
+	height: 1.125rem;
+	width: 100%;
+	min-width: 3rem;
+	background-image: linear-gradient(
+		-45deg,
+		rgb(235, 235, 235),
+		rgb(248, 248, 248) 30%,
+		rgb(235, 235, 235)
+	);
+	background-size: 50%;
+	background-position: left center;
+	margin-right: 2rem;
+	border-radius: 6px;
+	animation: 2s linear 0s infinite normal forwards running glimmer;
+}
+
+.button {
+	@include mixins.button;
+	align-self: self-end;
+}
+
+.pagination {
+	display: flex;
+	justify-content: center;
+	gap: 0.5rem;
+	margin-bottom: 2rem;
+
+	button {
+		background-color: unset;
+		border: unset;
+		font-size: 1rem;
+		cursor: pointer;
+		padding: 0.5rem;
+		border-radius: 0.25rem;
+
+		&:hover {
+			background-color: colors.$slate-10;
+		}
+
+		&.selected {
+			background-color: colors.$slate-10;
+		}
+	}
+}
