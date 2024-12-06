@@ -15,7 +15,8 @@ NEXT_PUBLIC_BASE_URL=https://bigs-front-end.vercel.app
 `BASE_URL` 기본값은 `http://localhost:3000`으로 환경 변수가 없어도 dev 모드 실행 시 정상 작동할 것입니다. (포트는 3000이어야 합니다.)
 
 3. `npm run dev`하면 개발환경으로 실행할 수 있습니다.
-4. `npm run build`로 빌드 후 `npm run start` 입력하여 프로덕션 환경으로 실행할 수 있습니다.
+`npm run build`로 빌드 후 `npm run start`를 입력하여 프로덕션 환경으로 실행할 수 있으나 환경 변수가 달라서 기능이 작동하지 않을 것입니다.
+프로덕션 테스트는 환경변수를 수정해주시거나 아래 배포 주소를 확인해주세요.
 
 ## 배포주소
 
